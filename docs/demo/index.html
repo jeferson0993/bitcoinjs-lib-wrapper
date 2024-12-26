@@ -1,0 +1,558 @@
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="description" content="">
+  <meta name="keywords" content="Library, Browser, Wrapper, Bitconjs-lib, Blockchain, Bitcoin, Testnet4">
+  <meta name="author" content="Jeferson F Silva">
+
+  <title>BitconJS Lib Wrapper Demo Wallet</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .gradient-bg {
+      background: linear-gradient(135deg, #1a1f2d 0%, #2d3748 100%);
+    }
+
+    .btn-hover:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+    }
+
+    .fade-in {
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+
+<body class="gradient-bg min-h-screen text-gray-100">
+
+  <div class="container mx-auto px-4 py-8">
+    <!-- Header -->
+    <div class="text-center mb-12 fade-in">
+      <svg class="w-16 h-16 mx-auto mb-4" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd"
+          d="M33.2538 16.1292C33.2538 25.0371 26.0329 32.2584 17.1255 32.2584C8.21799 32.2584 0.99707 25.0371 0.99707 16.1292C0.99707 7.22128 8.21799 0 17.1255 0C26.0329 0 33.2538 7.22128 33.2538 16.1292ZM21.0002 10.1366C23.2438 10.9071 24.8849 12.0607 24.5629 14.2077C24.3291 15.7799 23.4543 16.5403 22.2921 16.8065C23.8866 17.6335 24.4301 19.2029 23.9251 21.1005C22.9664 23.8314 20.6874 24.0613 17.6562 23.4905L16.9202 26.4261L15.1434 25.9844L15.8693 23.0882C15.4087 22.9742 14.9379 22.8522 14.4529 22.7221L13.724 25.6325L11.9492 25.1908L12.6842 22.2491L9.10534 21.3496L9.98817 19.3226C9.98817 19.3226 11.2982 19.6685 11.28 19.6433C11.7832 19.7673 12.0069 19.4406 12.095 19.2238L14.0895 11.256C14.1117 10.8798 13.9811 10.4059 13.2613 10.2264C13.2886 10.2072 11.9705 9.90669 11.9705 9.90669L12.4433 8.01585L16.0272 8.90026L16.7562 5.99188L18.532 6.43358L17.8182 9.28448C18.2961 9.39238 18.776 9.5023 19.2427 9.61828L19.9514 6.78553L21.7282 7.22724L21.0002 10.1366ZM16.7488 14.9882C17.9591 15.3091 20.5928 16.0074 21.0519 14.1765C21.5202 12.3033 18.9615 11.7376 17.7087 11.4606L17.7086 11.4606L17.7085 11.4606C17.5666 11.4292 17.4414 11.4015 17.3393 11.3761L16.4545 14.9117C16.5388 14.9325 16.6378 14.9588 16.7488 14.9882ZM15.3775 20.6807C16.8271 21.0626 19.9976 21.8977 20.5021 19.8803C21.0185 17.8175 17.9445 17.1305 16.4446 16.7952L16.4441 16.7951C16.2767 16.7577 16.129 16.7247 16.008 16.6946L15.032 20.5913C15.1311 20.6158 15.2472 20.6464 15.3771 20.6806L15.3775 20.6807Z"
+          fill="#F7931A" />
+      </svg>
+      <h1 class="text-4xl font-bold mb-2">HD Wallet</h1>
+      <p class="text-gray-400">Bitconjs-lib wrapper demo wallet</p>
+    </div>
+
+    <!-- Import Wallet -->
+    <div id="importWallet" class="bg-gray-800 shadow-lg rounded-lg p-6 mb-8 fade-in">
+      <h2 class="text-2xl font-semibold mb-4">Import Wallet</h2>
+      <form onsubmit="importWallet(event)" class="space-y-4">
+        <div>
+          <label class="block text-gray-400 mb-2">Seed Phrase</label>
+          <textarea id="importSeed"
+            class="w-full bg-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+            placeholder="Enter your 12-word seed phrase" rows="2"></textarea>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <button type="submit"
+            class="btn-hover bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-200">
+            Import Wallet
+          </button>
+          <button type="button" onclick="createNewWallet()"
+            class="btn-hover bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-200">
+            Create New Wallet
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Wallet Info -->
+    <div id="walletInfo" class="bg-gray-800 shadow-lg rounded-lg p-6 mb-8 fade-in">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-semibold">Wallet Balance</h2>
+        <span class="text-3xl font-bold text-yellow-500" id="balance">0.00000000 BTC</span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <button onclick="updateWalletBalance()"
+          class="btn-hover bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg transition-all duration-200">
+          Update Wallet Balance
+        </button>
+        <button onclick="generateNewHDindexAddresses()"
+          class="btn-hover bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-200">
+          Generate New Addresses
+        </button>
+        <a href="https://faucet.testnet4.dev/" target="_blank"
+          class="text-center btn-hover bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-200">
+          Get some free coins
+        </a>
+      </div>
+    </div>
+
+    <!-- Address Details -->
+    <div id="addressDetails" class="hidden bg-gray-800 shadow-lg rounded-lg p-6 mb-8 fade-in">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-semibold">Address Details</h2>
+        <button onclick="closeAddressDetails()" class="text-gray-400 hover:text-white">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="space-y-4">
+        <div class="bg-gray-700 rounded-lg p-4">
+          <div class="text-sm text-gray-400">Address</div>
+          <div class="mt-1 break-all text-white" id="detailAddress"></div>
+        </div>
+        <div class="bg-gray-700 rounded-lg p-4">
+          <div class="text-sm text-gray-400">Wif</div>
+          <div class="mt-1 break-all text-white">
+            <small id="detailWif"></small>
+          </div>
+        </div>
+        <div class="bg-gray-700 rounded-lg p-4">
+          <div class="text-sm text-gray-400">Balance</div>
+          <div class="mt-1 text-yellow-500 font-bold" id="detailBalance"></div>
+        </div>
+        <div class="bg-gray-700 rounded-lg p-4">
+          <div class="text-sm text-gray-400 mb-2">Transaction History</div>
+          <div id="transactionHistory" class="space-y-2">
+            <!-- Transactions will be added here -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Addresses List -->
+    <div id="addressesList" class="bg-gray-800 shadow-lg rounded-lg p-6 mb-8 fade-in">
+      <h2 class="text-2xl font-semibold mb-4">Generated Addresses</h2>
+      <div class="space-y-4" id="addressesListContent">
+        <!-- Addresses will be added here -->
+      </div>
+    </div>
+
+    <!-- Transaction Form -->
+    <div id="transactionForm" class="bg-gray-800 shadow-lg rounded-lg p-6 mb-8 fade-in">
+      <h2 class="text-2xl font-semibold mb-4">Send Bitcoin</h2>
+      <form onsubmit="sendTransaction(event)" class="space-y-4">
+        <div>
+          <label class="block text-gray-400 mb-2">Recipient Address</label>
+          <input type="text" id="recipientAddress"
+            class="w-full bg-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+            placeholder="Enter Bitcoin address">
+        </div>
+        <div>
+          <label class="block text-gray-400 mb-2">Amount (BTC)</label>
+          <input type="number" min="0" id="amount"
+            class="w-full bg-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+            placeholder="100000">
+        </div>
+        <div>
+          <label class="block text-gray-400 mb-2">Change Address</label>
+          <input type="text" id="changeAddress"
+            class="w-full bg-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+            placeholder="Enter change address">
+        </div>
+        <div>
+          <label class="block text-gray-400 mb-2">Change Amount (BTC)</label>
+          <input type="number" min="0" id="changeAmount"
+            class="w-full bg-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+            placeholder="100000">
+        </div>
+        <button type="submit"
+          class="btn-hover w-full bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-200">
+          Send
+        </button>
+      </form>
+    </div>
+
+    <!-- Wallet Settings -->
+    <div id="walletSettings" class="bg-gray-800 shadow-lg rounded-lg p-6 mb-8 fade-in">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-semibold">Wallet Settings</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <button onclick="showSeedPhrase()"
+          class="btn-hover bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg transition-all duration-200">
+          Show Seed Phrase
+        </button>
+        <button onclick="resetAddresses()"
+          class="btn-hover bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-200">
+          Reset Addresses
+        </button>
+        <button onclick="logout()"
+          class="btn-hover bg-red-500 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-200">
+          Logout
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="mt-12 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center text-white">
+        <p>© <span id="year"></span> Bitcoinjs-lib Wrapper. Apache License v2.0.</p>
+        <div class="mt-4 space-x-4">
+          <a href="https://github.com/jeferson0993/bitcoinjs-lib-wrapper/issues"
+            class="text-bitcoin-light hover:text-white transition-colors duration-200">Issues</a>
+          <a href="https://github.com/jeferson0993/bitcoinjs-lib-wrapper/blob/master/LICENSE"
+            class="text-bitcoin-light hover:text-white transition-colors duration-200">License</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal for Seed Phrase -->
+  <div id="seedModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+    <div class="bg-gray-800 rounded-lg p-6 max-w-lg w-full mx-4">
+      <h3 class="text-xl font-semibold mb-4">Your Seed Phrase</h3>
+      <p class="bg-gray-700 p-4 rounded-lg mb-4 text-yellow-500 break-words" id="seedPhrase"></p>
+      <div class="flex justify-end">
+        <button onclick="closeSeedModal()"
+          class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./index.js"></script>
+  <script>
+    const apiUrl = 'https://mempool.space/testnet4/api';
+    const { createMnemonic, createSeedHexFromMnemonic, createHDWallet, spendFromP2SHP2WPKH, spendFromP2PKH } = BTC;
+
+    //  wallet state
+    let wallet = {
+      addresses: [],
+      utxos: [],
+      seedPhrase: "",
+      transactions: {},  // Store transactions by address
+      privateKeys: {}    // Store private keys by address
+    };
+
+    const importWalletComponent = document.getElementById('importWallet');
+    const seedPhraseInput = document.getElementById('importSeed');
+    const walletInfoComponent = document.getElementById('walletInfo');
+    const addressesListComponent = document.getElementById('addressesList');
+    const addressDetailsComponent = document.getElementById('addressDetails');
+    const detailBalanceContent = document.getElementById('detailBalance');
+    const transactionFormComponent = document.getElementById('transactionForm');
+    const settingsComponent = document.getElementById('walletSettings');
+    const seedModalComponent = document.getElementById('seedModal');
+
+    function showComponent(element) {
+      element.classList.remove('hidden');
+    }
+
+    function hideComponent(element) {
+      element.classList.add('hidden');
+    }
+
+    // Save wallet to localStorage
+    function saveWallet(wallet) {
+      localStorage.setItem('hd-wallet', JSON.stringify(wallet));
+    }
+
+    function logout() {
+      localStorage.removeItem('hd-wallet');
+      location.reload();
+    }
+
+    // Generate new hd index addresses
+    async function generateNewHDindexAddresses() {
+      const { seedPhrase, addresses } = wallet;
+      const { seedHex: seed } = await createSeedHexFromMnemonic(seedPhrase);
+      const index = addresses.length ? (addresses.length / 2) : 0;
+      const legacyWallet = await createHDWallet(seed, 44, 0, 0, index, 'testnet');
+      /* const segwitWallet = await createHDWallet(seed, 49, 0, 0, index, 'testnet'); */
+      const bech32Wallet = await createHDWallet(seed, 84, 0, 0, index, 'testnet');
+      const newAddresses = [{ ...legacyWallet }, /* { ...segwitWallet }, */ { ...bech32Wallet }];
+      wallet.addresses = [...newAddresses, ...wallet.addresses];
+      saveWallet(wallet);
+      updateAddressesList();
+    }
+
+    // Update addresses list in UI
+    function updateAddressesList() {
+      document.getElementById('addressesListContent').innerHTML = wallet.addresses.map((hdWallet, index) => {
+        const { p2pkh, p2wpkh, p2shp2wpkh, amount } = hdWallet;
+        const address = p2pkh ? p2pkh : p2wpkh ? p2wpkh : p2shp2wpkh;
+
+        return `
+          <div class="bg-gray-700 rounded-lg p-4 cursor-pointer hover:bg-gray-600 transition-colors duration-200" 
+              onclick="showAddressDetails(${index})">
+            <div class="flex justify-between items-center">
+              <span class="text-sm text-gray-400">Address ${index + 1}:</span>
+              <span class="text-sm text-yellow-500">${amount || 0} SATs</span>
+            </div>
+            <div class="mt-2 text-sm break-all">${address}</div>
+          </div>
+        `
+      }).join('');
+    }
+
+    // Update UTXO list in UI
+    function updateUtxoList() {
+      document.getElementById('utxoListContent').innerHTML = wallet.utxos.map((utxo, index) => `
+        <div class="bg-gray-700 rounded-lg p-4">
+          <div class="flex justify-between items-center">
+            <span class="text-sm text-gray-400">UTXO ${++index}</span>
+            <span class="text-sm text-yellow-500">${utxo.amount} BTC</span>
+          </div>
+          <div class="mt-2 text-sm break-all">TxID: ${utxo.txid}</div>
+          <div class="mt-1 text-sm break-all">Address: ${utxo.address}</div>
+        </div>
+      `).join('');
+    }
+
+    // Import wallet
+    function importWallet(event) {
+      event.preventDefault();
+      const seedPhrase = seedPhraseInput.value.trim();
+      seedPhraseInput.value = '';
+
+      if (!seedPhrase) {
+        alert('Please enter a seed phrase');
+        return;
+      }
+
+      if (seedPhrase.split(' ').length !== 12) {
+        alert('Please enter a valid 12-word seed phrase');
+        return;
+      }
+
+      // Reset wallet state
+      wallet = {
+        addresses: [],
+        utxos: [],
+        seedPhrase,
+        transactions: {},   // Store transactions by address
+        privateKeys: {}     // Store private keys by address
+      };
+
+      // Generate initial addresses
+      generateNewHDindexAddresses();
+
+      saveWallet(wallet);
+      initializeWallet();
+    }
+
+    // Create new wallet
+    function createNewWallet() {
+      // Generate a new random 12-word seed phrase
+      const { mnemonic: newSeedPhrase } = createMnemonic();
+
+      // Set the new seed phrase in the import textarea
+      seedPhraseInput.value = newSeedPhrase;
+    }
+
+    // Show seed phrase modal
+    function showSeedPhrase() {
+      seedModalComponent.classList.remove('hidden');
+      document.getElementById('seedPhrase').textContent = wallet.seedPhrase;
+    }
+
+    // Close seed phrase modal
+    function closeSeedModal() {
+      seedModalComponent.classList.add('hidden');
+    }
+
+    function updateWalletBalance() {
+      const { addresses } = wallet;
+      addresses.forEach(async _wallet => {
+        const { p2pkh, p2wpkh, p2shp2wpkh } = _wallet;
+        const address = p2pkh ? p2pkh : p2wpkh ? p2wpkh : p2shp2wpkh;
+        await getUTXOs(address);
+      });
+      updateUI();
+    }
+
+    // Send transaction
+    async function sendTransaction(event) {
+      event.preventDefault();
+      const recipientAddress = document.getElementById('recipientAddress').value;
+      const amount = parseFloat(document.getElementById('amount').value);
+      const changeAddress = document.getElementById('changeAddress').value;
+      const changeAmount = parseFloat(document.getElementById('changeAmount').value);
+
+      if (!recipientAddress || !amount || !changeAddress || isNaN(changeAmount)) {
+        alert('Please fill in all fields');
+        return;
+      }
+
+      const totalAmount = amount + changeAmount;
+      if (totalAmount > getWalletBalance()) {
+        alert('Insufficient funds');
+        return;
+      }
+
+      // TODO: make the transaction here
+      /* const { txHex } = await spendFromP2PKH(txid, out, address, amount, wif, changeAddress, changeAmount, network); */
+      /* const { txHex } = await spendFromP2SHP2WPKH(txid, out, address, amount, wif, changeAddress, changeAmount, balance, network); */
+
+      event.target.reset();
+      updateUI();
+      alert('Transaction feature not implemented yet for this app');
+    }
+
+    function getWalletBalance() {
+      let balance = 0;
+      const { addresses } = wallet;
+      addresses.forEach(wallet => balance += wallet.amount || 0);
+      return balance;
+    }
+
+    // Update all UI elements
+    function updateUI() {
+      document.getElementById('balance').textContent = `${getWalletBalance()} SATs`;
+      updateAddressesList();
+      // updateUtxoList();
+    }
+
+    const getUTXOs = async (address) => {
+      try {
+        const response = await fetch(`${apiUrl}/address/${address}/utxo`);
+        const utxos = await response.json();
+
+        if (utxos.length) {
+          let utxoAmount = 0;
+          utxos.map((utxo, index) => {
+            const { value: amount } = utxo;
+            utxoAmount += amount;
+            detailBalanceContent.textContent = `${utxoAmount} SATs`;
+          });
+          const { addresses } = wallet;
+          addresses.forEach((_wallet, index) => {
+            const { p2pkh, p2wpkh, p2shp2wpkh, wif } = _wallet;
+            const find = p2pkh ? p2pkh : p2wpkh ? p2wpkh : p2shp2wpkh;
+            if (find === address) wallet.addresses[index] = { ..._wallet, utxos, amount: utxoAmount }
+          });
+        }
+
+      } catch (error) {
+        console.error("Error fetching UTXOs: " + error.message);
+      }
+    };
+
+    // Show address details
+    function showAddressDetails(index) {
+      const addressData = wallet.addresses[index];
+      console.log(addressData);
+      const { p2pkh, p2wpkh, p2shp2wpkh, utxos, wif } = addressData;
+      const address = p2pkh ? p2pkh : p2wpkh ? p2wpkh : p2shp2wpkh;
+      document.getElementById('detailAddress').textContent = address;
+      document.getElementById('detailWif').textContent = wif;
+      detailBalanceContent.textContent = "0 SATs";
+
+      // Show transaction history
+      let utxoAmount = 0;
+      transactionHistory.innerHTML = utxos ? addressData.utxos.map((utxo, index) => {
+        const { txid, value: amount, vout, status: { confirmed, block_time: time } } = utxo;
+        utxoAmount += amount;
+        detailBalanceContent.textContent = `${utxoAmount} SATs`;
+        return `
+            ${index ? "<hr />" : ""}
+            <li class="text-center">
+              Status: <spam class="text-rigth text-${confirmed ? 'green' : 'yellow'}-400">${confirmed ? 'confirmed' : 'unconfirmed'}</spam>,<br />
+              Txid: <a href="https://mempool.space/pt/testnet4/tx/${txid}" target="_blank">${txid.substring(0, 20)}...</a>,<br />
+              Vout: ${utxo.vout},
+              Value: <spam class="text-yellow-400">${utxo.value} SATs</spam>
+            </li>`
+      }).join('') : `<li>No UTXOs found for this address.</li>`;
+      if (utxos && utxos.length) {
+      }
+
+      showComponent(addressDetailsComponent);
+      hideComponent(addressesListComponent);
+      saveWallet(wallet);
+    }
+
+    // Close address details
+    function closeAddressDetails() {
+      hideComponent(addressDetailsComponent);
+      showComponent(addressesListComponent);
+    }
+
+    // Show private key
+    function showPrivateKey() {
+      const privateKeyModal = document.createElement('div');
+      privateKeyModal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center';
+      privateKeyModal.innerHTML = `
+        <div class="bg-gray-800 rounded-lg p-6 max-w-lg w-full mx-4">
+          <h3 class="text-xl font-semibold mb-4">Your Private Keys</h3>
+          <div class="space-y-4">
+            ${wallet.addresses.map(addressData => {
+        const { p2pkh, p2wpkh, p2shp2wpkh, wif } = addressData;
+        const address = p2pkh ? p2pkh : p2wpkh ? p2wpkh : p2shp2wpkh;
+        return `
+              <div class="bg-gray-700 p-4 rounded-lg">
+                <div class="text-sm text-gray-400 mb-1">Address:</div>
+                <div class="text-xs break-all mb-2">${address}</div>
+                <div class="text-sm text-gray-400 mb-1">Private Key:</div>
+                <div class="text-xs break-all text-yellow-500">${wif}</div>
+              </div>
+            `}).join('')}
+          </div>
+          <div class="flex justify-end mt-4">
+            <button onclick="this.parentElement.parentElement.parentElement.remove()" 
+                    class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg">
+              Close
+            </button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(privateKeyModal);
+    }
+
+    // Initialize wallet data
+    function initializeWallet() {
+      const savedWallet = localStorage.getItem('hd-wallet') ? JSON.parse(localStorage.getItem('hd-wallet')) : null;
+      if (savedWallet) {
+        console.log({ savedWallet });
+        wallet = savedWallet;
+        hideComponent(importWalletComponent);
+        showComponent(walletInfoComponent);
+        hideComponent(addressDetailsComponent);
+        showComponent(addressesListComponent);
+        showComponent(transactionFormComponent);
+        showComponent(settingsComponent);
+      } else {
+        showComponent(importWalletComponent);
+        hideComponent(walletInfoComponent);
+        hideComponent(addressDetailsComponent);
+        hideComponent(addressesListComponent);
+        hideComponent(transactionFormComponent);
+        hideComponent(settingsComponent);
+      }
+
+      updateUI();
+    }
+
+    function resetAddresses() {
+      wallet.addresses = [];
+      generateNewHDindexAddresses();
+    }
+
+    // Initialize wallet on load
+    initializeWallet();
+
+    // Close modal when clicking outside
+    seedModalComponent.addEventListener('click', function (event) {
+      if (event.target === this) {
+        closeSeedModal();
+      }
+    });
+
+    document.querySelector('#year').textContent = new Date().getFullYear();
+  </script>
+</body>
+
+</html>
