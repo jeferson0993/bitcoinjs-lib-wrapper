@@ -34,16 +34,16 @@ uglifyjs dist/index.js --compress --mangle --output dist/index.min.js
 
 ## Library API
 
-### **`getNewP2PKHWallet([networkInput])`**
+### **`createLegacyWallet(network)`**
 
 Creates a new P2PKH (Legacy) wallet with a new private key.
 
 #### Parameters:
-- `networkInput` (optional): A string or null, either `"testnet"` or `""`. Default is `"bitcoin"`.
+- `network` (optional): A string or null, either `"testnet"` or `"bitcoin"`. Default is `"bitcoin"`.
 
 #### Returns:
-  - `{ p2pkhAddress, wif }`: Object
-  - `p2pkhAddress`: The legacy Bitcoin address.
+  - `{ p2pkh, wif }`: Object
+  - `p2pkh`: The legacy Bitcoin address.
   - `wif`: The Wallet Import Format (WIF) private key.
 
 #### Example:
@@ -63,18 +63,8 @@ console.log({ p2pkh, wif });
 
 ---
 
-## Additional Functions
-
-- **`getWalletFromWif(wif, [networkInput])`**: Retrieve a wallet from a WIF.
-- **`getAdressFromXpub(xpub, acctNumber, keyindex, type)`**: Get an address from an extended public key (xpub).
-- **`getXpubFromSeed(seed, deriv, account)`**: Get an xpub from a seed.
-- **`getNewMultisigWallet(m, n, [networkInput])`**: Create a new multisig wallet.
-- **`spendFromP2SHP2WPKH(...)`**: Spend from P2SH-P2WPKH address.
-
----
-
 ## License
-The BitcoinJS Library Wrapper is open-source and distributed under the MIT license.
+The BitcoinJS Library Wrapper is open-source and distributed under the Apache 2.0 license.
 
 ---
 
