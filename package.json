@@ -1,0 +1,56 @@
+{
+  "name": "bitcoinjs-lib-wrapper",
+  "version": "1.0.0",
+  "description": "A Typescript/JavaScript wrapper for bitcoinjs-lib [v3.3.2], simplifying hd wallet, bech32 wallet and legacy wallet operations and adding types",
+  "main": "dist/index.js",
+  "types": "src/index.d.ts",
+  "files": [
+    "src/index*",
+    "dist/index.js"
+  ],
+  "scripts": {
+    "start": "npm run build && npm run test",
+    "build": "browserify src/index.js --s BTC > dist/index.js",
+    "test": "cp dist/index.js test/index.js && npx http-serve test",
+    "prepublishOnly": "npm run format && npm run build",
+    "lint": "npx eslint src",
+    "lint:fix": "npm run lint -- --fix",
+    "prettier": "npx prettier src --check",
+    "prettier:fix": "npm run prettier -- --write",
+    "format": "npm run prettier:fix && npm run lint:fix"
+  },
+  "keywords": [
+    "bitcoin",
+    "bitcoinjs",
+    "wrapper",
+    "cryptocurrency",
+    "blockchain",
+    "typescript"
+  ],
+  "author": "Jeferson F Silva",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeferson0993/bitcoinjs-lib-wrapper.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jeferson0993/bitcoinjs-lib-wrapper/issues"
+  },
+  "homepage": "https://jeferson0993.github.io/bitcoinjs-lib-wrapper",
+  "dependencies": {
+    "bip38": "^3.1.1",
+    "bip39": "^3.1.0",
+    "bip65": "^1.0.3",
+    "bitcoinjs-lib": "^3.3.2",
+    "browserify": "^17.0.1",
+    "bs58check": "^4.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "eslint": "^9.17.0",
+    "eslint-config-prettier": "^9.1.0",
+    "globals": "^15.14.0",
+    "prettier": "3.4.2"
+  },
+  "type": "module"
+}
