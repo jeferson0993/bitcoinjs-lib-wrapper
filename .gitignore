@@ -1,0 +1,52 @@
+# Directories
+web/
+public/
+test/
+
+# Dependency directories
+node_modules/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# VScode
+.vscode/
+
+# Optional npm cache directory
+.npm
+.pnpm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache
+
+# Output of 'npm pack'
+*.tgz
+*.zip
+
+# Yarn Integrity file
+.yarn-integrity
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+
+# yarn v2
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+#files
+bitcoinjs-wrapper.d.ts
+bitcoinjs-wrapper.js
+
+src/bundle.js
+src/index.vanilla.js
+
+tsconfig.json
+.DS_Store
+
+.gitmessage
