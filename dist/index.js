@@ -61427,5 +61427,6 @@ module.exports = {
 };
 
 window.BTC = module.exports;
+
 },{"bigi":33,"bip38":35,"bip39":42,"bitcoinjs-lib":68,"safe-buffer":267,"wif":304}]},{},[309])(309)
 });
