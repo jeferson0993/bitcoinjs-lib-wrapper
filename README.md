@@ -13,8 +13,14 @@ npm install bitcoinjs-lib-wrapper
 
 ### Using CDN for vanilla javascript in browser
 ```html
-<script src="https://unpkg.com/browse/bitcoinjs-lib-wrapper@latest/dist/bitcoinjs-lib-wrapper.js"></script>
+<script src="https://unpkg.com/browse/bitcoinjs-lib-wrapper@latest/dist/index.js"></script>
 ```
+
+## DEMO
+
+### A demo app can be see live on vercel:
+
+[Bitcoin Hot Wallet in Angular with bitconjs-lib wrapper](https://bitcoinjs-lib-wrapper-demo.vercel.app/)
 
 ## Building from source code
 
@@ -119,7 +125,7 @@ The library offers several functions to create and sign transactions:
 
 These functions use **inputs** (outputs from previous transactions) and **outputs** (destination addresses and amounts) to construct a transaction. The **WIF** (private key) is used to sign the transaction, ensuring that only the private key owner can move the funds.
 
-> future versions will include Array<inputs> and Array<outputs>. As up until now, only offers one input and two outputs
+> future versions will include array of inputs and array of outputs. But for now, we only offer one input and two outputs per transaction
 
 ### 8. **Locking Scripts and Multisig**
 
