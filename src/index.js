@@ -605,3 +605,5 @@ module.exports = {
   spendFromP2WPKH,
   bitcoin,
 };
+
+window.BTC = module.exports;
