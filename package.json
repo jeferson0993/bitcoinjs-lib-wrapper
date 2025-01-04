@@ -1,34 +1,27 @@
 {
   "name": "bitcoinjs-lib-wrapper",
-  "version": "1.0.0",
-  "description": "A Typescript/JavaScript wrapper for bitcoinjs-lib [v3.3.2], simplifying hd wallet, bech32 wallet and legacy wallet operations and adding types",
+  "version": "0.0.2",
   "main": "dist/index.js",
   "types": "src/index.d.ts",
   "files": [
-    "src/index*",
-    "dist/index.js"
+    "src/",
+    "dist/"
   ],
-  "scripts": {
-    "start": "npm run build && npm run test",
-    "build": "browserify src/index.js --s BTC > dist/index.js",
-    "test": "cp dist/index.js test/index.js && npx http-serve test",
-    "prepublishOnly": "npm run format && npm run build",
-    "lint": "npx eslint src",
-    "lint:fix": "npm run lint -- --fix",
-    "prettier": "npx prettier src --check",
-    "prettier:fix": "npm run prettier -- --write",
-    "format": "npm run prettier:fix && npm run lint:fix"
-  },
+  "type": "module",
+  "author": "Jeferson F Silva",
+  "license": "Apache-2.0",
+  "homepage": "https://jeferson0993.github.io/bitcoinjs-lib-wrapper",
+  "description": "A Typescript/JavaScript wrapper for bitcoinjs-lib [v3.3.2], simplifying hd wallet, bech32 wallet and legacy wallet operations and adding types",
   "keywords": [
     "bitcoin",
-    "bitcoinjs",
+    "bitcoinjs-lib",
     "wrapper",
-    "cryptocurrency",
+    "library",
     "blockchain",
-    "typescript"
+    "typescript",
+    "javascript",
+    "wallet"
   ],
-  "author": "Jeferson F Silva",
-  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jeferson0993/bitcoinjs-lib-wrapper.git"
@@ -36,7 +29,17 @@
   "bugs": {
     "url": "https://github.com/jeferson0993/bitcoinjs-lib-wrapper/issues"
   },
-  "homepage": "https://jeferson0993.github.io/bitcoinjs-lib-wrapper",
+  "scripts": {
+    "start": "npm run build && npm run test",
+    "build": "browserify src/index.js --s BTC > dist/index.js",
+    "test": "cp dist/index.js docs/demo/index.js && npx http-serve docs/demo",
+    "prepublishOnly": "npm run format && npm run build",
+    "lint": "npx eslint src",
+    "lint:fix": "npm run lint -- --fix",
+    "prettier": "npx prettier src --check",
+    "prettier:fix": "npm run prettier -- --write",
+    "format": "npm run prettier:fix && npm run lint:fix"
+  },
   "dependencies": {
     "bip38": "^3.1.1",
     "bip39": "^3.1.0",
@@ -51,6 +54,5 @@
     "eslint-config-prettier": "^9.1.0",
     "globals": "^15.14.0",
     "prettier": "3.4.2"
-  },
-  "type": "module"
+  }
 }
